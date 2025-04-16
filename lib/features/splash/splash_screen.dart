@@ -1,8 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spotifyclone/core/assets/app_svg.dart';
-import 'package:spotifyclone/features/introduction/introduction_screen.dart';
 
+import 'package:spotifyclone/core/router/app_route.gr.dart';
+
+@RoutePage()
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -13,10 +16,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   void waitTime() async {
     await Future.delayed(Duration(seconds: 5));
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (_) => IntroductionScreen()),
-    );
+    context.router.push(IntroductionRoute());
   }
 
   @override
