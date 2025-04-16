@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:spotifyclone/features/authentication/presentation/login/login.dart';
+import 'package:spotifyclone/core/config/theme/app_theme.dart';
 import 'package:spotifyclone/features/splash/splash_screen.dart';
 
 class SpotifyApp extends StatelessWidget {
@@ -7,6 +7,6 @@ class SpotifyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: SplashScreen());
+    return MaterialApp(theme: AppTheme.lightTheme, home: SplashScreen());
   }
 }

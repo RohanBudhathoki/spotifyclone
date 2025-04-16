@@ -9,19 +9,27 @@ class AppTheme {
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.primaryColor,
-        textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        textStyle: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: AppColors.lightBackGround,
+        ),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
       ),
     ),
   );
   static final darkThemData = ThemeData(
-    fontFamily: 'Satoshi',  
+    fontFamily: 'Satoshi',
     primaryColor: AppColors.primaryColor,
     scaffoldBackgroundColor: AppColors.lightBackGround,
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.primaryColor,
-        textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        textStyle: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: AppColors.lightBackGround,
+        ),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
       ),
     ),
