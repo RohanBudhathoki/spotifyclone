@@ -7,13 +7,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:spotifyclone/core/router/app_route.dart';
 
 import 'package:spotifyclone/spotify.dart';
 
+final _appRouter = AppRouter();
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const SpotifyApp());
+    await tester.pumpWidget(SpotifyApp(appRouter: _appRouter));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

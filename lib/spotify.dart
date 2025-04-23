@@ -6,7 +6,8 @@ import 'package:spotifyclone/core/router/app_route.dart';
 import 'package:spotifyclone/features/choose_theme/presentation/bloc/theme_choose_cubit.dart';
 
 class SpotifyApp extends StatelessWidget {
-  const SpotifyApp({super.key});
+  final AppRouter appRouter;
+  const SpotifyApp({super.key, required this.appRouter});
 
   @override
   Widget build(BuildContext context) {

@@ -13,9 +13,11 @@ class AppTheme {
         textStyle: TextStyle(
           fontSize: 20.sp,
           fontWeight: FontWeight.bold,
-          color: AppColors.lightBackGround,
+          color: AppColors.darkBackGround,
         ),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.r),
+        ),
       ),
     ),
   );
@@ -31,7 +33,9 @@ class AppTheme {
           fontWeight: FontWeight.bold,
           color: AppColors.lightBackGround,
         ),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.r),
+        ),
       ),
     ),
   );

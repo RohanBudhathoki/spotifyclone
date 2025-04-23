@@ -9,6 +9,7 @@ import 'package:spotifyclone/core/assets/app_png.dart';
 import 'package:spotifyclone/core/assets/app_svg.dart';
 import 'package:spotifyclone/core/common/common_button.dart';
 import 'package:spotifyclone/core/config/theme/app_colors.dart';
+import 'package:spotifyclone/core/router/app_route.gr.dart';
 import 'package:spotifyclone/features/choose_theme/presentation/bloc/theme_choose_cubit.dart';
 
 @RoutePage()
@@ -148,7 +149,9 @@ class ChooseThemeScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 37.h),
                   CustomButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      context.router.push(SignupSigninRoute());
+                    },
                     title: 'Continue',
                     height: 92.h,
                   ),
