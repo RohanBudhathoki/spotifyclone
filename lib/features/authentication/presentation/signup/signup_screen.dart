@@ -11,8 +11,8 @@ import 'package:spotifyclone/core/helper/is_dark_mode.dart';
 import 'package:spotifyclone/core/router/app_route.gr.dart';
 
 @RoutePage()
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class SignupScreen extends StatelessWidget {
+  const SignupScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class LoginScreen extends StatelessWidget {
             SvgPicture.asset(AppVector.spotifyLogo, height: 33.h),
             SizedBox(height: 80.h),
             Text(
-              'Sign in',
+              'Register',
               style: TextStyle(
                 fontSize: 30.sp,
                 fontWeight: FontWeight.bold,
@@ -58,28 +58,18 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 38.h),
+            SizedBox(height: 26.h),
+            CommonTextField(hintText: 'FullName', obscureText: false),
+            SizedBox(height: 16.h),
             CommonTextField(
               hintText: 'enter username or email',
               obscureText: false,
             ),
             SizedBox(height: 16.h),
             CommonTextField(hintText: 'Password', obscureText: false),
-            SizedBox(height: 20.h),
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: Text(
-                'Recovery password',
 
-                style: TextStyle(
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.bold,
-                  color: context.isDarkMode ? Colors.grey : Colors.black,
-                ),
-              ),
-            ),
             SizedBox(height: 22.h),
-            CustomButton(title: 'Sign In', onPressed: () {}),
+            CustomButton(title: 'Create Account', onPressed: () {}),
             SizedBox(height: 31.h),
             Row(
               children: [
@@ -132,12 +122,12 @@ class LoginScreen extends StatelessWidget {
             SizedBox(height: 50.h),
             InkWell(
               onTap: () {
-                context.router.push(SignupRoute());
+                context.router.push(LoginRoute());
               },
               child: RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
-                  text: 'Not a Member ? ',
+                  text: 'Do you have an account? ',
 
                   style: TextStyle(
                     fontSize: 14.sp,
@@ -146,7 +136,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                   children: <TextSpan>[
                     TextSpan(
-                      text: 'click here',
+                      text: 'Sign In',
                       style: TextStyle(
                         color: Colors.blue,
                         fontWeight: FontWeight.w400,

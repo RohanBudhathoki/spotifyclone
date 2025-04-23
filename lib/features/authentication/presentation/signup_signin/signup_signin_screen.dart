@@ -5,8 +5,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spotifyclone/core/assets/app_png.dart';
 import 'package:spotifyclone/core/assets/app_svg.dart';
 import 'package:spotifyclone/core/common/common_button.dart';
-
 import 'package:spotifyclone/core/helper/is_dark_mode.dart';
+import 'package:spotifyclone/core/router/app_route.gr.dart';
 
 @RoutePage()
 class SignupSigninScreen extends StatelessWidget {
@@ -64,23 +64,30 @@ class SignupSigninScreen extends StatelessWidget {
                         flex: 1,
                         child: CustomButton(
                           title: 'Register',
-                          onPressed: () {},
+                          onPressed: () {
+                            context.router.push(SignupRoute());
+                          },
                         ),
                       ),
                       SizedBox(width: 90.w),
                       Expanded(
                         flex: 1,
-                        child: Text(
-                          'Sign In',
-                          style: TextStyle(
-                            fontSize: 17.sp,
+                        child: InkWell(
+                          onTap: () {
+                            context.router.push(LoginRoute());
+                          },
+                          child: Text(
+                            'Sign In',
+                            style: TextStyle(
+                              fontSize: 17.sp,
 
-                            color:
-                                context.isDarkMode
-                                    ? Colors.white
-                                    : Colors.black,
+                              color:
+                                  context.isDarkMode
+                                      ? Colors.white
+                                      : Colors.black,
+                            ),
+                            textAlign: TextAlign.center,
                           ),
-                          textAlign: TextAlign.center,
                         ),
                       ),
                     ],
