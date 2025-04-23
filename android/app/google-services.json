@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "741802251733",
+    "project_id": "spotify-clone-2cd7e",
+    "storage_bucket": "spotify-clone-2cd7e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:741802251733:android:f51534f2ece7df9e23995c",
+        "android_client_info": {
+          "package_name": "com.example.spotifyclone"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfg-XRDPj_PI2SNHZnKyZgW_GBlqyHRIw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

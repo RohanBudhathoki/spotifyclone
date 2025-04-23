@@ -15,9 +15,11 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   void waitTime() async {
+    final router = context.router;
     await Future.delayed(Duration(seconds: 5));
+
     if (context.mounted) {
-      context.router.push(IntroductionRoute());
+      router.push(IntroductionRoute());
     }
   }
 

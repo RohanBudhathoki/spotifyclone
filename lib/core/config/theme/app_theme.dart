@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:spotifyclone/core/config/theme/app_colors.dart';
 
 class AppTheme {
@@ -10,7 +11,7 @@ class AppTheme {
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.primaryColor,
         textStyle: TextStyle(
-          fontSize: 20,
+          fontSize: 20.sp,
           fontWeight: FontWeight.bold,
           color: AppColors.lightBackGround,
         ),
@@ -21,12 +22,12 @@ class AppTheme {
   static final darkThemData = ThemeData(
     fontFamily: 'Satoshi',
     primaryColor: AppColors.primaryColor,
-    scaffoldBackgroundColor: AppColors.lightBackGround,
+    scaffoldBackgroundColor: AppColors.darkBackGround,
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.primaryColor,
         textStyle: TextStyle(
-          fontSize: 20,
+          fontSize: 20.sp,
           fontWeight: FontWeight.bold,
           color: AppColors.lightBackGround,
         ),

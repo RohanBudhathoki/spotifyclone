@@ -1,10 +1,12 @@
-import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spotifyclone/core/assets/app_png.dart';
 import 'package:spotifyclone/core/assets/app_svg.dart';
 import 'package:spotifyclone/core/common/common_button.dart';
 import 'package:spotifyclone/core/config/theme/app_colors.dart';
+import 'package:spotifyclone/core/router/app_route.gr.dart';
 
 @RoutePage()
 class IntroductionScreen extends StatelessWidget {
@@ -12,12 +14,8 @@ class IntroductionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     return Scaffold(
       body: Container(
-        height: size.height,
-        width: size.width,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage(AppPng.introBg),
@@ -27,32 +25,28 @@ class IntroductionScreen extends StatelessWidget {
         child: SafeArea(
           child: SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: size.width * 0.08),
+              padding: EdgeInsets.all(30).r,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(height: size.height * 0.04),
-                  SvgPicture.asset(
-                    AppVector.spotifyLogo,
-                    height: size.height * 0.05,
-                  ),
-                  SizedBox(height: size.height * 0.43),
+                  SvgPicture.asset(AppVector.spotifyLogo, height: 60.h),
+                  SizedBox(height: 400.h),
                   Column(
                     children: [
                       Text(
                         "Enjoy listening to music",
                         style: TextStyle(
-                          fontSize: size.width * 0.065,
+                          fontSize: 25.sp,
                           fontWeight: FontWeight.bold,
                           color: AppColors.lightBackGround,
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      SizedBox(height: size.height * 0.015),
+                      SizedBox(height: 21.h),
                       Text(
                         'Lorem ipsum dolor sit amet, \nconsectetur adipiscing elit. Sagittis enim \npurus sed phasellus. Cursus ornare id \nscelerisque aliquam.',
                         style: TextStyle(
-                          fontSize: size.width * 0.04,
+                          fontSize: 17.sp,
                           fontWeight: FontWeight.w400,
                           color: const Color(0xff797979),
                         ),
@@ -60,13 +54,14 @@ class IntroductionScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: size.height * 0.05),
+                  SizedBox(height: 37.h),
                   CustomButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      context.router.push(ChooseThemeRoute());
+                    },
                     title: 'Get Started',
-                    height: size.height * 0.08,
+                    height: 92.h,
                   ),
-                  SizedBox(height: size.height * 0.03),
                 ],
               ),
             ),
