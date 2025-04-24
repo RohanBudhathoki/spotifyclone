@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:spotifyclone/core/helper/is_dark_mode.dart';
 
 class CommonTextField extends StatelessWidget {
   final String? hintText;
@@ -23,6 +24,9 @@ class CommonTextField extends StatelessWidget {
       child: TextFormField(
         obscureText: obscureText ?? false,
         controller: controller,
+        style: TextStyle(
+          color: context.isDarkMode ? Colors.white : Colors.black,
+        ),
         decoration: InputDecoration(
           contentPadding:
               const EdgeInsets.symmetric(vertical: 27.0, horizontal: 29.0).r,

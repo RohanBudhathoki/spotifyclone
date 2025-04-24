@@ -7,8 +7,12 @@ class AppRouter extends RootStackRouter {
   List<AutoRoute> get routes => [
     ///splashscreen
     AutoRoute(page: SplashRoute.page, initial: true),
+
+    ///onboarding
     AutoRoute(page: IntroductionRoute.page),
     AutoRoute(page: ChooseThemeRoute.page),
+
+    ///Authentication
     AutoRoute(page: SignupSigninRoute.page),
     AutoRoute(page: SignupRoute.page),
     AutoRoute(page: LoginRoute.page),

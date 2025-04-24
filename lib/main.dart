@@ -5,6 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:spotifyclone/core/router/app_route.dart';
+import 'package:spotifyclone/dependecy_injection.dart';
+import 'package:spotifyclone/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:spotifyclone/features/choose_theme/presentation/bloc/theme_choose_cubit.dart';
 import 'package:spotifyclone/spotify.dart';
 
@@ -12,6 +14,7 @@ final _appRouter = AppRouter();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await initDependecies();
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory:
         kIsWeb
@@ -21,7 +24,10 @@ void main() async {
 
   runApp(
     (MultiBlocProvider(
-      providers: [BlocProvider(create: (_) => ThemeChooseCubit())],
+      providers: [
+        BlocProvider(create: (_) => ThemeChooseCubit()),
+        BlocProvider(create: (_) => serviceLocater<AuthBloc>()),
+      ],
       child: SpotifyApp(appRouter: _appRouter),
     )),
   );
