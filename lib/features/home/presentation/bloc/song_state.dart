@@ -17,3 +17,5 @@ final class SongSucess extends SongState {
 
   SongSucess(this.song);
 }
+
+final class PlayAudioSucess extends SongState {}

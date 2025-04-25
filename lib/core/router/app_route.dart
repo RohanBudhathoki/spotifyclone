@@ -19,5 +19,6 @@ class AppRouter extends RootStackRouter {
 
     ///Homescreen
     AutoRoute(page: HomeRoute.page, initial: true),
+    AutoRoute(page: AudioPlayerRoute.page),
   ];
 }

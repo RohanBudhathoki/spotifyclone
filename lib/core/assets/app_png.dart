@@ -10,4 +10,11 @@ class AppPng {
   static const String homePattern = "${baseUrl}homscreen_pattern$format";
   static const String playButton = "${baseUrl}Play_button$format";
   static const String favouriteIcon = "${baseUrl}favourite_icon$format";
+  static const String backIcon = "${baseUrl}back$format";
+  static const String heart = "${baseUrl}heart$format";
+  static const String next = "${baseUrl}Next$format";
+  static const String pause = "${baseUrl}Pause$format";
+  static const String previous = "${baseUrl}Previous$format";
+  static const String repeate = "${baseUrl}Repeate$format";
+  static const String shuffle = "${baseUrl}Shuffle$format";
 }

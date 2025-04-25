@@ -8,6 +8,7 @@ import 'package:spotifyclone/core/assets/app_svg.dart';
 import 'package:spotifyclone/core/config/loader/loader.dart';
 import 'package:spotifyclone/core/config/theme/app_colors.dart';
 import 'package:spotifyclone/core/helper/is_dark_mode.dart';
+import 'package:spotifyclone/core/router/app_route.gr.dart';
 
 import 'package:spotifyclone/features/home/presentation/bloc/song_bloc.dart';
 
@@ -18,6 +19,27 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor:
+            context.isDarkMode
+                ? AppColors.darkBackGround
+                : AppColors.lightBackGround,
+        title: SvgPicture.asset(AppVector.spotifyLogoHome),
+        leading: SvgPicture.asset(AppVector.searchIcon, fit: BoxFit.scaleDown),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(
+              Icons.more_vert,
+              color:
+                  context.isDarkMode
+                      ? AppColors.greyText
+                      : AppColors.darkBackGround,
+            ),
+          ),
+        ],
+      ),
       body: BlocProvider.value(
         value: context.read<SongBloc>()..add(GetSongBloc()),
         child: BlocConsumer<SongBloc, SongState>(
@@ -35,30 +57,12 @@ class HomeScreen extends StatelessWidget {
                       padding:
                           const EdgeInsets.symmetric(
                             horizontal: 28,
-                            vertical: 28,
+                            vertical: 18,
                           ).r,
                       child: SizedBox(
                         height: 180.h,
                         child: Stack(
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                SvgPicture.asset(AppVector.searchIcon),
-                                SvgPicture.asset(AppVector.spotifyLogoHome),
-                                IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(
-                                    Icons.more_vert,
-                                    color:
-                                        context.isDarkMode
-                                            ? AppColors.greyText
-                                            : AppColors.darkBackGround,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 20.h),
                             Align(
                               alignment: Alignment.bottomCenter,
                               child: Container(
@@ -123,70 +127,84 @@ class HomeScreen extends StatelessWidget {
                         separatorBuilder:
                             (context, index) => SizedBox(width: 14.w),
                         itemBuilder: (cxt, index) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                height: 185.h,
-                                width: 145.w,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(30).r,
-                                  image: DecorationImage(
-                                    image: NetworkImage(
-                                      state.song[index].coverArt,
-                                    ),
-                                    fit: BoxFit.cover,
-                                  ),
+                          final song = state.song[index];
+                          return GestureDetector(
+                            onTap: () {
+                              context.router.push(
+                                AudioPlayerRoute(
+                                  posterUrl: song.coverArt,
+                                  title: song.title,
+                                  atrist: song.artist,
+                                  audiourl: song.audioUrl,
+                                  duration: song.duration,
                                 ),
-                                child: Align(
-                                  alignment: Alignment.bottomRight,
-
-                                  child: Container(
-                                    transform: Matrix4.translationValues(
-                                      10,
-                                      10,
-                                      0,
-                                    ),
-                                    height: 40.h,
-                                    width: 40.w,
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage(AppPng.playButton),
+                              );
+                            },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  height: 185.h,
+                                  width: 145.w,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30).r,
+                                    image: DecorationImage(
+                                      image: NetworkImage(
+                                        state.song[index].coverArt,
                                       ),
-                                      color:
-                                          context.isDarkMode
-                                              ? Color(0xff2C2C2C)
-                                              : Color(0xffE6E6E6),
-                                      shape: BoxShape.circle,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  child: Align(
+                                    alignment: Alignment.bottomRight,
+
+                                    child: Container(
+                                      transform: Matrix4.translationValues(
+                                        10,
+                                        10,
+                                        0,
+                                      ),
+                                      height: 40.h,
+                                      width: 40.w,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: AssetImage(AppPng.playButton),
+                                        ),
+                                        color:
+                                            context.isDarkMode
+                                                ? Color(0xff2C2C2C)
+                                                : Color(0xffE6E6E6),
+                                        shape: BoxShape.circle,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
 
-                              Text(
-                                state.song[index].title,
-                                style: TextStyle(
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.bold,
-                                  color:
-                                      context.isDarkMode
-                                          ? Color(0xffE1E1E1)
-                                          : AppColors.darkBackGround,
+                                Text(
+                                  state.song[index].title,
+                                  style: TextStyle(
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.bold,
+                                    color:
+                                        context.isDarkMode
+                                            ? Color(0xffE1E1E1)
+                                            : AppColors.darkBackGround,
+                                  ),
                                 ),
-                              ),
-                              SizedBox(height: 3.h),
-                              Text(
-                                state.song[index].artist,
-                                style: TextStyle(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w400,
-                                  color:
-                                      context.isDarkMode
-                                          ? Color(0xffE1E1E1)
-                                          : AppColors.darkBackGround,
+                                SizedBox(height: 3.h),
+                                Text(
+                                  state.song[index].artist,
+                                  style: TextStyle(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w400,
+                                    color:
+                                        context.isDarkMode
+                                            ? Color(0xffE1E1E1)
+                                            : AppColors.darkBackGround,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           );
                         },
                       ),
