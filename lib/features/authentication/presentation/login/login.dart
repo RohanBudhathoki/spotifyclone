@@ -25,7 +25,7 @@ class LoginScreen extends StatelessWidget {
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthSucess) {
-            print("Auth Sucess");
+            context.pushRoute(HomeRoute());
           }
         },
         builder: (context, state) {

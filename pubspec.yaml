@@ -46,11 +46,12 @@ dependencies:
   get_it: ^8.0.3
   dartz: ^0.10.1
   just_audio: ^0.10.0
-  device_preview: ^1.2.0
+  
   fpdart: ^1.1.1
   flutter_spinkit: ^5.2.1
   google_sign_in: ^6.3.0
-
+  freezed_annotation: ^3.0.0
+  json_annotation: ^4.9.0
   
   
 
@@ -59,14 +60,12 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   build_runner: ^2.4.15  
-
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
-  flutter_lints: ^5.0.0
   auto_route_generator: ^10.0.1
+  freezed: ^3.0.6
+  json_serializable: ^6.9.5
+  
+  flutter_lints: ^5.0.0
+  
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
