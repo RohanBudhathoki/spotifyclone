@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:spotifyclone/core/error/exception.dart';
 import 'package:spotifyclone/features/authentication/data/models/user_model.dart';
 
@@ -15,6 +18,7 @@ abstract interface class AuthRemoteDataSource {
   });
   Future<UserModel?> currentUser();
   Future<void> logout();
+  Future<UserModel?> loginwithgoogle();
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -110,6 +114,39 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       await firebaseAuth.signOut();
     } catch (e) {
       throw ServerException('Logout failed: $e');
+    }
+  }
+
+  @override
+  Future<UserModel?> loginwithgoogle() async {
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    final GoogleSignInAuthentication googleAuth =
+        await googleUser!.authentication;
+
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+
+    UserCredential userCredential = await FirebaseAuth.instance
+        .signInWithCredential(credential);
+    User? user = userCredential.user;
+    if (user != null) {
+      await firestore.collection('users').doc(user.uid).set({
+        'uid': user.uid,
+        'email': user.email,
+        'name': user.displayName,
+        'photoUrl': user.photoURL,
+        'lastSignIn': FieldValue.serverTimestamp(),
+      }, SetOptions(merge: true));
+
+      return UserModel(
+        id: user.uid,
+        name: user.displayName ?? '',
+        email: user.email ?? '',
+      );
+    } else {
+      return null;
     }
   }
 }

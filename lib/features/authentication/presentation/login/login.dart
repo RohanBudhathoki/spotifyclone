@@ -168,7 +168,12 @@ class LoginScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Image.asset(AppPng.googleIcon),
+                          GestureDetector(
+                            onTap: () {
+                              context.read<AuthBloc>().add(AuthGoogleLogin());
+                            },
+                            child: Image.asset(AppPng.googleIcon),
+                          ),
                           SizedBox(width: 55.w),
                           Image.asset(AppPng.appleIcon),
                         ],

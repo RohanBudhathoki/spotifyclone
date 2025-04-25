@@ -77,7 +77,18 @@ class AuthRepoImple implements AuthRepo {
   Future<Either<Failure, void>> logout() async {
     try {
       await remoteDataSource.logout();
-      return Right(null); // Returning `null` as the response is void
+      return Right(null);
+    } on ServerException catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, User>> googleLogin() async {
+    try {
+      final user = await remoteDataSource.loginwithgoogle();
+
+      return Right(user!);
     } on ServerException catch (e) {
       return Left(Failure(message: e.toString()));
     }
