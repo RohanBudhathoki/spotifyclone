@@ -20,3 +20,9 @@ final class PauseAudioBloc extends SongEvent {
 final class StopAudioBloc extends SongEvent {}
 
 final class ResumeAudioBloc extends SongEvent {}
+
+final class SeekAudioEvent extends SongEvent {
+  final Duration position;
+
+  SeekAudioEvent(this.position);
+}

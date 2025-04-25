@@ -129,7 +129,16 @@ class AudioPlayerScreen extends StatelessWidget {
                 ],
               ),
             ),
-            Slider(value: 3, min: 0, max: 3, onChanged: (value) {}),
+            Slider(
+              value: double.parse(duration),
+              min: 0,
+              max: double.parse(duration),
+
+              onChanged: (value) {
+                final newPosition = Duration(seconds: value.toInt());
+                context.read<SongBloc>().add(SeekAudioEvent(newPosition));
+              },
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 63).r,
               child: Row(
@@ -137,13 +146,18 @@ class AudioPlayerScreen extends StatelessWidget {
                 children: [
                   Image.asset(AppPng.repeate),
                   Image.asset(AppPng.previous),
-                  Container(
-                    height: 72.h,
-                    width: 72.w,
-                    decoration: BoxDecoration(
-                      color: AppColors.primaryColor,
-                      image: DecorationImage(image: AssetImage(AppPng.pause)),
-                      shape: BoxShape.circle,
+                  GestureDetector(
+                    onTap: () {
+                      context.read<SongBloc>().add(PlayAudioBloc(audiourl));
+                    },
+                    child: Container(
+                      height: 72.h,
+                      width: 72.w,
+                      decoration: BoxDecoration(
+                        color: AppColors.primaryColor,
+                        image: DecorationImage(image: AssetImage(AppPng.pause)),
+                        shape: BoxShape.circle,
+                      ),
                     ),
                   ),
                   Image.asset(AppPng.next),

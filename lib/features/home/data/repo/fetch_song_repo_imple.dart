@@ -69,8 +69,12 @@ class FetchSongRepoImple implements SongRepo {
   }
 
   @override
-  Future<Either<Failure, void>> seekAudio({required Duration postiton}) {
-    // TODO: implement seekAudio
-    throw UnimplementedError();
+  Future<Either<Failure, void>> seekAudio({required Duration postiton}) async {
+    try {
+      await service.seek(postiton);
+      return Right(null);
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
   }
 }

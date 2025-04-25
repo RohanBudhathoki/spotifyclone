@@ -10,6 +10,7 @@ import 'package:spotifyclone/features/home/domain/usecases/fetch_song_usecase.da
 import 'package:spotifyclone/features/home/domain/usecases/pause_audio_usecase.dart';
 import 'package:spotifyclone/features/home/domain/usecases/play_audio_usecase.dart';
 import 'package:spotifyclone/features/home/domain/usecases/resume_audio_usecase.dart';
+import 'package:spotifyclone/features/home/domain/usecases/seek_song_usecase.dart';
 import 'package:spotifyclone/features/home/domain/usecases/stop_audio_usecase.dart';
 
 part 'song_event.dart';
@@ -21,17 +22,20 @@ class SongBloc extends Bloc<SongEvent, SongState> {
   final PauseAudio _pauseAudio;
   final ResumeAudio _resumeAudio;
   final StopAudio _stopAudio;
+  final SeekAudio _seekAudio;
   SongBloc({
     required GetSongs getSongs,
     required PlayAudio playAudio,
     required PauseAudio pauseAudio,
     required ResumeAudio resumeAudio,
     required StopAudio stopAudio,
+    required SeekAudio seekAudio,
   }) : _getSongs = getSongs,
        _pauseAudio = pauseAudio,
        _playAudio = playAudio,
        _resumeAudio = resumeAudio,
        _stopAudio = stopAudio,
+       _seekAudio = seekAudio,
        super(SongInitial()) {
     on<SongEvent>((event, emit) {});
 
@@ -40,6 +44,7 @@ class SongBloc extends Bloc<SongEvent, SongState> {
     on<PauseAudioBloc>(_pauseSong);
     on<StopAudioBloc>(_stopSong);
     on<ResumeAudioBloc>(_resumeSong);
+    on<SeekAudioEvent>(_onSeekSong);
   }
   void _fetchSongs(GetSongBloc event, Emitter<SongState> emit) async {
     emit(SongLoading());
@@ -88,6 +93,19 @@ class SongBloc extends Bloc<SongEvent, SongState> {
     emit(SongLoading());
 
     final result = await _resumeAudio(NoParmsResume());
+    result.fold(
+      (failure) => emit(SongFailure(failure.message)),
+      (_) => emit(PlayAudioSucess()),
+    );
+  }
+
+  Future<void> _onSeekSong(
+    SeekAudioEvent event,
+    Emitter<SongState> emit,
+  ) async {
+    emit(SongLoading());
+    final result = await _seekAudio(SeekAudioParams(event.position));
+
     result.fold(
       (failure) => emit(SongFailure(failure.message)),
       (_) => emit(PlayAudioSucess()),
