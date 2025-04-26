@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fpdart/fpdart.dart';
@@ -7,45 +5,33 @@ import 'package:spotifyclone/core/error/failure.dart';
 import 'package:spotifyclone/features/home/domain/entity/songs_entity.dart';
 import 'package:spotifyclone/features/home/domain/usecases/fetch_song_usecase.dart';
 
-import 'package:spotifyclone/features/home/domain/usecases/pause_audio_usecase.dart';
-import 'package:spotifyclone/features/home/domain/usecases/play_audio_usecase.dart';
-import 'package:spotifyclone/features/home/domain/usecases/resume_audio_usecase.dart';
-import 'package:spotifyclone/features/home/domain/usecases/seek_song_usecase.dart';
-import 'package:spotifyclone/features/home/domain/usecases/stop_audio_usecase.dart';
+import 'package:spotifyclone/features/home/presentation/audio_player_screen/logic/audio_player_services.dart';
 
 part 'song_event.dart';
 part 'song_state.dart';
 
 class SongBloc extends Bloc<SongEvent, SongState> {
   final GetSongs _getSongs;
-  final PlayAudio _playAudio;
-  final PauseAudio _pauseAudio;
-  final ResumeAudio _resumeAudio;
-  final StopAudio _stopAudio;
-  final SeekAudio _seekAudio;
+
+  final AudioPlayerService _audioPlayerService;
   SongBloc({
     required GetSongs getSongs,
-    required PlayAudio playAudio,
-    required PauseAudio pauseAudio,
-    required ResumeAudio resumeAudio,
-    required StopAudio stopAudio,
-    required SeekAudio seekAudio,
+
+    required AudioPlayerService audioPlayerService,
   }) : _getSongs = getSongs,
-       _pauseAudio = pauseAudio,
-       _playAudio = playAudio,
-       _resumeAudio = resumeAudio,
-       _stopAudio = stopAudio,
-       _seekAudio = seekAudio,
+
+       _audioPlayerService = audioPlayerService,
        super(SongInitial()) {
     on<SongEvent>((event, emit) {});
 
     on<GetSongBloc>(_fetchSongs);
+    on<LoadSongBloc>(_loadSong);
     on<PlayAudioBloc>(_playSong);
     on<PauseAudioBloc>(_pauseSong);
-    on<StopAudioBloc>(_stopSong);
     on<ResumeAudioBloc>(_resumeSong);
-    on<SeekAudioEvent>(_onSeekSong);
+    on<StopAudioBloc>(_stopSong);
   }
+  bool isPlaying = false;
   void _fetchSongs(GetSongBloc event, Emitter<SongState> emit) async {
     emit(SongLoading());
 
@@ -62,53 +48,49 @@ class SongBloc extends Bloc<SongEvent, SongState> {
     }
   }
 
+  void _loadSong(LoadSongBloc event, Emitter<SongState> emit) async {
+    try {
+      await _audioPlayerService.setUrl(event.songUrl);
+      emit(SongLoaded());
+    } catch (e) {
+      emit(SongFailure("Unexpected error: $e"));
+    }
+  }
+
   void _playSong(PlayAudioBloc event, Emitter<SongState> emit) async {
-    emit(SongLoading());
-    final result = await _playAudio(PlayAudioParams(event.songUrl));
-    result.fold(
-      (failure) => emit(SongFailure(failure.message)),
-      (_) => emit(PlayAudioSucess()),
-    );
+    try {
+      await _audioPlayerService.play();
+      isPlaying = true;
+      emit(SongPlaying());
+    } catch (e) {
+      emit(SongFailure("Unexpected error: $e"));
+    }
   }
 
   void _pauseSong(PauseAudioBloc event, Emitter<SongState> emit) async {
-    emit(SongLoading());
-    final result = await _pauseAudio(PauseAudioParams(event.songUrl));
-    result.fold(
-      (failure) => emit(SongFailure(failure.message)),
-      (_) => emit(PlayAudioSucess()),
-    );
-  }
-
-  void _stopSong(StopAudioBloc event, Emitter<SongState> emit) async {
-    emit(SongLoading());
-    final result = await _stopAudio(NoParmsStop());
-    result.fold(
-      (failure) => emit(SongFailure(failure.message)),
-      (_) => emit(PlayAudioSucess()),
-    );
+    try {
+      await _audioPlayerService.pause();
+      emit(SongPaused());
+    } catch (e) {
+      emit(SongFailure("Unexpected error: $e"));
+    }
   }
 
   void _resumeSong(ResumeAudioBloc event, Emitter<SongState> emit) async {
-    emit(SongLoading());
-
-    final result = await _resumeAudio(NoParmsResume());
-    result.fold(
-      (failure) => emit(SongFailure(failure.message)),
-      (_) => emit(PlayAudioSucess()),
-    );
+    try {
+      await _audioPlayerService.resume();
+      emit(SongPlaying());
+    } catch (e) {
+      emit(SongFailure("Unexpected error: $e"));
+    }
   }
 
-  Future<void> _onSeekSong(
-    SeekAudioEvent event,
-    Emitter<SongState> emit,
-  ) async {
-    emit(SongLoading());
-    final result = await _seekAudio(SeekAudioParams(event.position));
-
-    result.fold(
-      (failure) => emit(SongFailure(failure.message)),
-      (_) => emit(PlayAudioSucess()),
-    );
+  void _stopSong(StopAudioBloc event, Emitter<SongState> emit) async {
+    try {
+      await _audioPlayerService.stop();
+      emit(SongStopped());
+    } catch (e) {
+      emit(SongFailure("Unexpected error: $e"));
+    }
   }
 }

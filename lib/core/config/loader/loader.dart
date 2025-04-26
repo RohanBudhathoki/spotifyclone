@@ -8,16 +8,8 @@ class LoadingOverlay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned.fill(
-      child: Container(
-        color: Colors.black.withOpacity(0.7),
-        child: Center(
-          child: SpinKitWaveSpinner(
-            color: AppColors.primaryColor,
-            size: 75.0.r,
-          ),
-        ),
-      ),
+    return Center(
+      child: SpinKitWaveSpinner(color: AppColors.primaryColor, size: 75.0.r),
     );
   }
 }

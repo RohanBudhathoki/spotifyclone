@@ -1,18 +1,28 @@
+import 'dart:developer';
+
 import 'package:just_audio/just_audio.dart';
 
 class AudioPlayerService {
   final AudioPlayer _audioPlayer = AudioPlayer();
 
-  Future<void> play(String url) async {
+  Duration? get totalDuration => _audioPlayer.duration;
+  Future<void> setUrl(String url) async {
     try {
       await _audioPlayer.setUrl(url);
+    } catch (e) {
+      throw Exception('Failed to play audio: $e');
+    }
+  }
+
+  Future<void> play() async {
+    try {
       await _audioPlayer.play();
     } catch (e) {
       throw Exception('Failed to play audio: $e');
     }
   }
 
-  Future<void> pause(String url) async {
+  Future<void> pause() async {
     try {
       await _audioPlayer.pause();
     } catch (e) {

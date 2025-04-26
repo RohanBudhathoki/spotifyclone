@@ -8,6 +8,7 @@ import 'package:spotifyclone/core/router/app_route.dart';
 import 'package:spotifyclone/dependecy_injection.dart';
 import 'package:spotifyclone/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:spotifyclone/features/choose_theme/presentation/bloc/theme_choose_cubit.dart';
+
 import 'package:spotifyclone/features/home/presentation/bloc/song_bloc.dart';
 import 'package:spotifyclone/spotify.dart';
 

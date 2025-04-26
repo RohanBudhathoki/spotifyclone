@@ -46,7 +46,12 @@ class HomeScreen extends StatelessWidget {
           listener: (context, state) {},
           builder: (context, state) {
             if (state is SongLoading) {
-              Positioned.fill(child: LoadingOverlay());
+              return LoadingOverlay();
+            }
+            if (state is SongPlaying ||
+                state is SongPaused ||
+                state is SongLoaded) {
+              context.read<SongBloc>().add(GetSongBloc());
             }
 
             if (state is SongSucess) {
@@ -54,11 +59,7 @@ class HomeScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     Padding(
-                      padding:
-                          const EdgeInsets.symmetric(
-                            horizontal: 28,
-                            vertical: 18,
-                          ).r,
+                      padding: const EdgeInsets.symmetric(horizontal: 28).r,
                       child: SizedBox(
                         height: 180.h,
                         child: Stack(
@@ -117,7 +118,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-
+                    SizedBox(height: 15.h),
                     SizedBox(
                       height: 273.h,
                       child: ListView.separated(
@@ -125,20 +126,16 @@ class HomeScreen extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         itemCount: state.song.length,
                         separatorBuilder:
-                            (context, index) => SizedBox(width: 14.w),
+                            (context, index) => SizedBox(width: 20.w),
                         itemBuilder: (cxt, index) {
                           final song = state.song[index];
                           return GestureDetector(
-                            onTap: () {
-                              context.router.push(
-                                AudioPlayerRoute(
-                                  posterUrl: song.coverArt,
-                                  title: song.title,
-                                  atrist: song.artist,
-                                  audiourl: song.audioUrl,
-                                  duration: song.duration,
-                                ),
+                            onTap: () async {
+                              context.read<SongBloc>().add(
+                                LoadSongBloc(song.audioUrl),
                               );
+
+                              context.router.push(AudioPlayerRoute(song: song));
                             },
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -251,65 +248,81 @@ class HomeScreen extends StatelessWidget {
                         itemBuilder: (ctx, index) {
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Container(
-                                height: 40.h,
-                                width: 40.w,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: AssetImage(AppPng.playButton),
-                                  ),
-                                  color:
-                                      context.isDarkMode
-                                          ? Color(0xff2C2C2C)
-                                          : Color(0xffE6E6E6),
-                                  shape: BoxShape.circle,
-                                ),
-                              ),
-
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              Row(
                                 children: [
-                                  Text(
-                                    state.song[index].title,
-                                    style: TextStyle(
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.bold,
+                                  Container(
+                                    height: 40.h,
+                                    width: 40.w,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: AssetImage(AppPng.playButton),
+                                      ),
                                       color:
                                           context.isDarkMode
-                                              ? Color(0xffE1E1E1)
-                                              : AppColors.darkBackGround,
+                                              ? Color(0xff2C2C2C)
+                                              : Color(0xffE6E6E6),
+                                      shape: BoxShape.circle,
                                     ),
                                   ),
-                                  SizedBox(height: 3.h),
-                                  Text(
-                                    state.song[index].artist,
-                                    style: TextStyle(
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w400,
-                                      color:
-                                          context.isDarkMode
-                                              ? Color(0xffE1E1E1)
-                                              : AppColors.darkBackGround,
+                                  SizedBox(width: 23.w),
+                                  SizedBox(
+                                    width: 100.5.w,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          state.song[index].title,
+                                          style: TextStyle(
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.bold,
+                                            color:
+                                                context.isDarkMode
+                                                    ? Color(0xffE1E1E1)
+                                                    : AppColors.darkBackGround,
+                                          ),
+                                        ),
+                                        SizedBox(height: 3.h),
+                                        Text(
+                                          overflow: TextOverflow.ellipsis,
+                                          state.song[index].artist,
+                                          style: TextStyle(
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.w400,
+                                            color:
+                                                context.isDarkMode
+                                                    ? Color(0xffE1E1E1)
+                                                    : AppColors.darkBackGround,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ],
                               ),
+                              SizedBox(
+                                width: 70.w,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      state.song[index].duration,
+                                      style: TextStyle(
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w400,
+                                        color:
+                                            context.isDarkMode
+                                                ? Color(0xffE1E1E1)
+                                                : AppColors.darkBackGround,
+                                      ),
+                                    ),
 
-                              Text(
-                                state.song[index].duration,
-                                style: TextStyle(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w400,
-                                  color:
-                                      context.isDarkMode
-                                          ? Color(0xffE1E1E1)
-                                          : AppColors.darkBackGround,
+                                    Image.asset(AppPng.favouriteIcon),
+                                  ],
                                 ),
                               ),
-
-                              Image.asset(AppPng.favouriteIcon),
                             ],
                           );
                         },
@@ -319,7 +332,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               );
             }
-            return Positioned.fill(child: LoadingOverlay());
+            return Center(child: Text("Loading..."));
           },
         ),
       ),

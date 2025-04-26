@@ -19,6 +19,8 @@ import 'package:spotifyclone/features/authentication/presentation/signup_signin/
     as _i7;
 import 'package:spotifyclone/features/choose_theme/presentation/choose_theme/choose_theme_screen.dart'
     as _i2;
+import 'package:spotifyclone/features/home/domain/entity/songs_entity.dart'
+    as _i11;
 import 'package:spotifyclone/features/home/presentation/audio_player_screen/audio_player_screen.dart'
     as _i1;
 import 'package:spotifyclone/features/home/presentation/homescreen/home_screen.dart'
@@ -32,22 +34,11 @@ import 'package:spotifyclone/features/splash/splash_screen.dart' as _i8;
 class AudioPlayerRoute extends _i9.PageRouteInfo<AudioPlayerRouteArgs> {
   AudioPlayerRoute({
     _i10.Key? key,
-    required String posterUrl,
-    required String title,
-    required String atrist,
-    required String audiourl,
-    required String duration,
+    required _i11.Song song,
     List<_i9.PageRouteInfo>? children,
   }) : super(
          AudioPlayerRoute.name,
-         args: AudioPlayerRouteArgs(
-           key: key,
-           posterUrl: posterUrl,
-           title: title,
-           atrist: atrist,
-           audiourl: audiourl,
-           duration: duration,
-         ),
+         args: AudioPlayerRouteArgs(key: key, song: song),
          initialChildren: children,
        );
 
@@ -57,43 +48,21 @@ class AudioPlayerRoute extends _i9.PageRouteInfo<AudioPlayerRouteArgs> {
     name,
     builder: (data) {
       final args = data.argsAs<AudioPlayerRouteArgs>();
-      return _i1.AudioPlayerScreen(
-        key: args.key,
-        posterUrl: args.posterUrl,
-        title: args.title,
-        atrist: args.atrist,
-        audiourl: args.audiourl,
-        duration: args.duration,
-      );
+      return _i1.AudioPlayerScreen(key: args.key, song: args.song);
     },
   );
 }
 
 class AudioPlayerRouteArgs {
-  const AudioPlayerRouteArgs({
-    this.key,
-    required this.posterUrl,
-    required this.title,
-    required this.atrist,
-    required this.audiourl,
-    required this.duration,
-  });
+  const AudioPlayerRouteArgs({this.key, required this.song});
 
   final _i10.Key? key;
 
-  final String posterUrl;
-
-  final String title;
-
-  final String atrist;
-
-  final String audiourl;
-
-  final String duration;
+  final _i11.Song song;
 
   @override
   String toString() {
-    return 'AudioPlayerRouteArgs{key: $key, posterUrl: $posterUrl, title: $title, atrist: $atrist, audiourl: $audiourl, duration: $duration}';
+    return 'AudioPlayerRouteArgs{key: $key, song: $song}';
   }
 }
 

@@ -14,11 +14,7 @@ import 'package:spotifyclone/features/home/data/datasource/song_remote_data_sour
 import 'package:spotifyclone/features/home/data/repo/fetch_song_repo_imple.dart';
 import 'package:spotifyclone/features/home/domain/repo/fetch_song_repo.dart';
 import 'package:spotifyclone/features/home/domain/usecases/fetch_song_usecase.dart';
-import 'package:spotifyclone/features/home/domain/usecases/pause_audio_usecase.dart';
-import 'package:spotifyclone/features/home/domain/usecases/play_audio_usecase.dart';
-import 'package:spotifyclone/features/home/domain/usecases/resume_audio_usecase.dart';
-import 'package:spotifyclone/features/home/domain/usecases/seek_song_usecase.dart';
-import 'package:spotifyclone/features/home/domain/usecases/stop_audio_usecase.dart';
+
 import 'package:spotifyclone/features/home/presentation/audio_player_screen/logic/audio_player_services.dart';
 
 import 'package:spotifyclone/features/home/presentation/bloc/song_bloc.dart';
@@ -77,27 +73,16 @@ void _initSong() {
     ..registerLazySingleton<AudioPlayerService>(() => AudioPlayerService())
     //song repo
     ..registerFactory<SongRepo>(
-      () => FetchSongRepoImple(
-        serviceLocater<SongRemoteDataSource>(),
-        serviceLocater<AudioPlayerService>(),
-      ),
+      () => FetchSongRepoImple(serviceLocater<SongRemoteDataSource>()),
     )
     //Song usecases
     ..registerFactory(() => GetSongs(serviceLocater()))
-    ..registerFactory(() => PlayAudio(serviceLocater()))
-    ..registerFactory(() => PauseAudio(serviceLocater()))
-    ..registerFactory(() => ResumeAudio(serviceLocater()))
-    ..registerFactory(() => StopAudio(serviceLocater()))
-    ..registerFactory(() => SeekAudio(serviceLocater()))
     //song bloc
     ..registerFactory(
       () => SongBloc(
         getSongs: serviceLocater(),
-        pauseAudio: serviceLocater(),
-        playAudio: serviceLocater(),
-        resumeAudio: serviceLocater(),
-        stopAudio: serviceLocater(),
-        seekAudio: serviceLocater(),
+
+        audioPlayerService: serviceLocater(),
       ),
     );
 }
