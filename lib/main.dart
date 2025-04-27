@@ -8,6 +8,7 @@ import 'package:spotifyclone/core/router/app_route.dart';
 import 'package:spotifyclone/dependecy_injection.dart';
 import 'package:spotifyclone/features/authentication/presentation/bloc/auth_bloc.dart';
 import 'package:spotifyclone/features/choose_theme/presentation/bloc/theme_choose_cubit.dart';
+import 'package:spotifyclone/features/home/presentation/audio_player_screen/cubit/audio_player_cubit.dart';
 
 import 'package:spotifyclone/features/home/presentation/bloc/song_bloc.dart';
 import 'package:spotifyclone/spotify.dart';
@@ -28,6 +29,7 @@ void main() async {
     (MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => ThemeChooseCubit()),
+        BlocProvider(create: (_) => AudioPlayerCubit()),
         BlocProvider(create: (_) => serviceLocater<AuthBloc>()),
         BlocProvider(create: (_) => serviceLocater<SongBloc>()),
       ],
