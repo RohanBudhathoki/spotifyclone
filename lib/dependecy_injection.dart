@@ -15,8 +15,6 @@ import 'package:spotifyclone/features/home/data/repo/fetch_song_repo_imple.dart'
 import 'package:spotifyclone/features/home/domain/repo/fetch_song_repo.dart';
 import 'package:spotifyclone/features/home/domain/usecases/fetch_song_usecase.dart';
 
-import 'package:spotifyclone/features/home/presentation/audio_player_screen/logic/audio_player_services.dart';
-
 import 'package:spotifyclone/features/home/presentation/bloc/song_bloc.dart';
 
 GetIt serviceLocater = GetIt.instance;
@@ -70,7 +68,6 @@ void _initSong() {
     ..registerFactory<SongRemoteDataSource>(
       () => SongDataSource(serviceLocater<FirebaseFirestore>()),
     )
-    ..registerLazySingleton<AudioPlayerService>(() => AudioPlayerService())
     //song repo
     ..registerFactory<SongRepo>(
       () => FetchSongRepoImple(serviceLocater<SongRemoteDataSource>()),
@@ -78,11 +75,5 @@ void _initSong() {
     //Song usecases
     ..registerFactory(() => GetSongs(serviceLocater()))
     //song bloc
-    ..registerFactory(
-      () => SongBloc(
-        getSongs: serviceLocater(),
-
-        audioPlayerService: serviceLocater(),
-      ),
-    );
+    ..registerFactory(() => SongBloc(getSongs: serviceLocater()));
 }

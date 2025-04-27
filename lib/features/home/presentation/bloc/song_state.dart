@@ -5,9 +5,7 @@ sealed class SongState {}
 
 final class SongInitial extends SongState {}
 
-final class SongLoading extends SongState {}
-
-final class SongLoaded extends SongState {}
+final class SongDataLoading extends SongState {}
 
 final class SongFailure extends SongState {
   final String message;
@@ -19,11 +17,3 @@ final class SongSucess extends SongState {
 
   SongSucess(this.song);
 }
-
-final class PlayAudioSucess extends SongState {}
-
-final class SongPlaying extends SongState {}
-
-final class SongPaused extends SongState {}
-
-final class SongStopped extends SongState {}
