@@ -72,5 +72,5 @@ lib/
 
 1. **Clone the repo**
    ```bash
-   git clone https://github.com/your-username/spotify-clone-flutter.git
+   https://github.com/RohanBudhathoki/spotifyclone.git
    cd spotify-clone-flutter
