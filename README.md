@@ -68,9 +68,35 @@ lib/
 
 ---
 
+### ✅ Now it mentions:  
+- Light/Dark mode
+- Auto Theme switching
+- Professional project structure
+- All packages you used
+
+---
+
+
+
+> ![Flutter](https://img.shields.io/badge/Flutter-%5E3.16-blue?logo=flutter) ![Firebase](https://img.shields.io/badge/Firebase-%E2%9C%85-orange?logo=firebase) ![BLoC](https://img.shields.io/badge/BLoC-State%20Management-blueviolet)
+
+
+
 ## 🛠 Setup Instructions
 
-1. **Clone the repo**
+ **Clone the repo**
    ```bash
-   https://github.com/RohanBudhathoki/spotifyclone.git
+ 1  https://github.com/RohanBudhathoki/spotifyclone.git
    cd spotify-clone-flutter
+ 2 Install dependencies
+    flutter pub get
+
+ 3 Configure Firebase
+
+  Add your google-services.json (for Android) and GoogleService-Info.plist (for iOS).
+  Set up Firebase Authentication (Google Sign-In) and Firestore Database.
+
+ 4 Run the app
+  flutter run
+
+
