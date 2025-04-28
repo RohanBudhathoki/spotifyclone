@@ -6,12 +6,7 @@ abstract class AudioPlayerState {
 
 class SongLoading extends AudioPlayerState {}
 
-class SongLoaded extends AudioPlayerState {
-  final Duration position;
-  final Duration duration;
-
-  const SongLoaded({required this.position, required this.duration});
-}
+class SongLoaded extends AudioPlayerState {}
 
 class SongPlayerInitial extends AudioPlayerState {}
 
@@ -21,8 +16,8 @@ class SongPaused extends AudioPlayerState {}
 
 class SongStopped extends AudioPlayerState {}
 
-class SongFailure extends AudioPlayerState {
+class SongPlayerFailure extends AudioPlayerState {
   final String message;
 
-  const SongFailure(this.message);
+  const SongPlayerFailure(this.message);
 }
