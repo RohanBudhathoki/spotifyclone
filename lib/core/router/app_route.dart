@@ -6,7 +6,7 @@ class AppRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes => [
     ///splashscreen
-    AutoRoute(page: SplashRoute.page),
+    AutoRoute(page: SplashRoute.page, initial: true),
 
     ///onboarding
     AutoRoute(page: IntroductionRoute.page),
@@ -18,7 +18,7 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: LoginRoute.page),
 
     ///Homescreen
-    AutoRoute(page: HomeRoute.page, initial: true),
+    AutoRoute(page: HomeRoute.page),
     AutoRoute(page: AudioPlayerRoute.page),
   ];
 }
