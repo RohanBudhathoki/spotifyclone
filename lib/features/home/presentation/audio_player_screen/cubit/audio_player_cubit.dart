@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:spotifyclone/features/home/presentation/bloc/song_bloc.dart';
 part 'audio_player_state.dart';
 
 class AudioPlayerCubit extends Cubit<AudioPlayerState> {
@@ -7,25 +8,20 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
   Duration songDuration = Duration.zero;
   Duration songPosition = Duration.zero;
 
-  Stream<Duration> get positionStream => _audioPlayer.positionStream;
-
   bool get isPlaying => _audioPlayer.playing;
 
-  AudioPlayerCubit() : super(SongLoading()) {
-    _initialize();
+  AudioPlayerCubit() : super(SongLoaded()) {
+    initialize();
   }
 
-  void _initialize() {
-    _audioPlayer.positionStream.listen((position) {
-      songPosition = position;
-      emit(SongLoaded(position: songPosition, duration: songDuration));
+  void initialize() {
+    _audioPlayer.positionStream.listen((p) {
+      songPosition = p;
+      emit(SongLoaded());
     });
-
-    _audioPlayer.durationStream.listen((duration) {
-      if (duration != null) {
-        songDuration = duration;
-        emit(SongLoaded(position: songPosition, duration: songDuration));
-      }
+    _audioPlayer.durationStream.listen((d) {
+      if (d != null) songDuration = d;
+      emit(SongLoaded());
     });
   }
 
@@ -34,9 +30,9 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
     try {
       await _audioPlayer.setUrl(url);
       songDuration = _audioPlayer.duration ?? Duration.zero;
-      emit(SongLoaded(duration: songDuration, position: songPosition));
+      emit(SongLoaded());
     } catch (e) {
-      emit(SongFailure('Failed to load song: $e'));
+      emit(SongPlayerFailure('Failed to load song: $e'));
     }
   }
 
@@ -50,16 +46,16 @@ class AudioPlayerCubit extends Cubit<AudioPlayerState> {
         emit(SongPlaying());
       }
     } catch (e) {
-      emit(SongFailure("Error during playback: $e"));
+      emit(SongPlayerFailure("Error during playback: $e"));
     }
   }
 
-  Future<void> seekToPosition(Duration position) async {
+  void seek(double value) {
     try {
-      await _audioPlayer.seek(position);
-      emit(SongPlaying());
+      _audioPlayer.seek(Duration(seconds: value.toInt()));
+      emit(SongLoaded());
     } catch (e) {
-      emit(SongFailure("Error seeking to position: $e"));
+      emit(SongPlayerFailure("Error during playback: $e"));
     }
   }
 

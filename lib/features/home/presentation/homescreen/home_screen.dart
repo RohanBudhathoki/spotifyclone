@@ -9,7 +9,6 @@ import 'package:spotifyclone/core/config/loader/loader.dart';
 import 'package:spotifyclone/core/config/theme/app_colors.dart';
 import 'package:spotifyclone/core/helper/is_dark_mode.dart';
 import 'package:spotifyclone/core/router/app_route.gr.dart';
-import 'package:spotifyclone/features/home/presentation/audio_player_screen/cubit/audio_player_cubit.dart';
 
 import 'package:spotifyclone/features/home/presentation/bloc/song_bloc.dart';
 
@@ -135,11 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       itemBuilder: (cxt, index) {
                         final song = state.song[index];
                         return GestureDetector(
-                          onTap: () async {
-                            context.read<AudioPlayerCubit>().loadSong(
-                              state.song[index].audioUrl,
-                            );
-
+                          onTap: () {
                             context.router.push(AudioPlayerRoute(song: song));
                           },
                           child: Column(
